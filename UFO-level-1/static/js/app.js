@@ -1,86 +1,70 @@
-// from data.js
-//var tableData = data;
+// Verify the sightings data is displayed in the console
+console.log(data);
 
 // Get a reference to the table body
 var tbody = d3.select("tbody");
 
-// Get a reference to the input element on the page, form-control
-var form = d3.select(".filters");
+// Get a reference to the form (or input element) on the page 
+// var form = d3.select(".filters"); //also worked
+var form = d3.select("form");
 
 // Get a reference to the button that can be clicked to filter for a date
 var filterButton = d3.select("#filter-btn");
 
-// Console.log the sightings data from data.js
-console.log(data);
-
-data.forEach((ufoSighting) => {
+function showData(data) {
+  tbody.html('');
+  data.forEach(ufoSighting => {
     var row = tbody.append("tr");
-    Object.entries(ufoSighting).forEach(([key, value]) => {
+    Object.values(ufoSighting).forEach(value => {
       var cell = row.append("td");
       cell.text(value);
     });
   });
+};
+
+showData(data);
+// Above, from Unit 14.3 Activity 03 WeatherReport with arrow functions:
+// used activity code to display the UFO Sightings in the table 
+// *only need the values, not "entries")
 
 
-// Create the event handlers, for clicking a button or hitting enter
-filterButton.on("click", runEnter);
-form.on("submit", runEnter);
 
-function runEnter() {
-
-  // Prevent the page from refreshing
+// Establish a function to filter by datetime 
+function handlClick(){
   d3.event.preventDefault()
+  let date = d3.select('#datetime').node().value;
+  let filtered = data.filter(obj=>obj.datetime == date);
+  showData(filtered);
+};
+// Create the event handlers, for click of button and on enter in the input field
+filterButton.on("click", handlClick);
+form.on("submit", handlClick);
 
-  // Select the input element and get the raw HTML node
-  var inputElement = d3.select("#datetime");
+// Created from activity in 14.3 - allowed filtering for the input
+// filtered data did not show in the table because had not been cleared first
+// function runEnter() {
 
-  // Get the value property of the input element
-  var inputValue = inputElement.property("value");
+//   // Prevent the page from refreshing
 
-  // Create a variable holding the filtered data, filtered for datetime
-  var filteredData = data.filter(tbody => tbody.datetime === inputValue);
+//   // Select the input element and get the raw HTML node
+//   var inputElement = d3.select("#datetime");
 
-  console.log(filteredData);
-  
-  filteredData.forEach((ufoSighting) => {
-    var row = tbody.append("tr");
-    Object.entries(ufoSighting).forEach(([key, value]) => {
-      var cell = row.append("td");
-      cell.text(value);
-    });
-  });
-}
-  // if datetime = the input ofr dateInput on the form-control
-  //console.log("The filter button was clicked!");
-  // return tbody.datetime.filter(dateInput)
+//   // Get the value property of the input element
+//   var inputValue = inputElement.property("value");
 
-// Looking for where datetime = the input from dateInput on the form, then want to return and display the rows
+//   // Create a variable holding the filtered data, filtered for datetime
+//   var filteredData = data.filter(tbody => tbody.datetime === inputValue);
 
+//   console.log(filteredData);
 
-// filterButton.on("click", handleClick);
-
-
-
-  //From Unit 14.3 Activity 03
-// // Step 5: Use d3 to update each cell's text with
-// // weather report values (weekday, date, high, low)
-// data.forEach(function(weatherReport) {
-//   console.log(weatherReport);
-//   var row = tbody.append("tr");
-//   Object.entries(weatherReport).forEach(function([key, value]) {
-//     console.log(key, value);
-//     // Append a cell to the row for each value
-//     // in the weather report object
-//     var cell = row.append("td");
-//     cell.text(value);
+//   filteredData.forEach((ufoSighting) => {
+//     var row = tbody.append("tr");
+//     Object.entries(ufoSighting).forEach(([key, value]) => {
+//       var cell = row.append("td");
+//       cell.text(value);
+//     });
 //   });
-// });
+// }
+// // looking for rows where datetime = the inputValue on the form-control
+// // Want to display those rows in the table only
 
-// BONUS: Refactor to use Arrow Functions!
-// data.forEach((weatherReport) => {
-//   var row = tbody.append("tr");
-//   Object.entries(weatherReport).forEach(([key, value]) => {
-//     var cell = row.append("td");
-//     cell.text(value);
-//   });
-// });
