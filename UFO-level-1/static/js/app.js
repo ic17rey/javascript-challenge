@@ -11,10 +11,15 @@ var form = d3.select("form");
 // Get a reference to the button that can be clicked to filter for a date
 var filterButton = d3.select("#filter-btn");
 
+// Function created to display the rows of a table for ufoSightings
 function showData(data) {
+  // Clear out the table displayed each time filter function is used
   tbody.html('');
+
+  // Add a blank row for each sighting
+  // Extract all "values" from the data and append to cells of the table for display
   data.forEach(ufoSighting => {
-    var row = tbody.append("tr");
+    var row = tbody.append("tr");     
     Object.values(ufoSighting).forEach(value => {
       var cell = row.append("td");
       cell.text(value);
@@ -22,49 +27,17 @@ function showData(data) {
   });
 };
 
+// Call the function to load the values to the table
 showData(data);
-// Above, from Unit 14.3 Activity 03 WeatherReport with arrow functions:
-// used activity code to display the UFO Sightings in the table 
-// *only need the values, not "entries")
-
-
 
 // Establish a function to filter by datetime 
 function handlClick(){
   d3.event.preventDefault()
-  let date = d3.select('#datetime').node().value;
-  let filtered = data.filter(obj=>obj.datetime == date);
+  var date = d3.select('#datetime').property("value");
+  var filtered = data.filter(obj=>obj.datetime === date);
   showData(filtered);
 };
+
 // Create the event handlers, for click of button and on enter in the input field
 filterButton.on("click", handlClick);
 form.on("submit", handlClick);
-
-// Created from activity in 14.3 - allowed filtering for the input
-// filtered data did not show in the table because had not been cleared first
-// function runEnter() {
-
-//   // Prevent the page from refreshing
-
-//   // Select the input element and get the raw HTML node
-//   var inputElement = d3.select("#datetime");
-
-//   // Get the value property of the input element
-//   var inputValue = inputElement.property("value");
-
-//   // Create a variable holding the filtered data, filtered for datetime
-//   var filteredData = data.filter(tbody => tbody.datetime === inputValue);
-
-//   console.log(filteredData);
-
-//   filteredData.forEach((ufoSighting) => {
-//     var row = tbody.append("tr");
-//     Object.entries(ufoSighting).forEach(([key, value]) => {
-//       var cell = row.append("td");
-//       cell.text(value);
-//     });
-//   });
-// }
-// // looking for rows where datetime = the inputValue on the form-control
-// // Want to display those rows in the table only
-
