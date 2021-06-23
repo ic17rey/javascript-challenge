@@ -37,12 +37,13 @@ showData(data);
 function handlClick(){
   d3.event.preventDefault()
   var date = dateFilter.property("value");
-  // var state = stateFilter.property("value");
   var city = cityFilter.property("value");
+  
   // Check variables in console.log
   console.log(date);
   console.log(city);
-  //console.log(state);
+  
+  // When a date is entered, then a city, clicking on Filter Table shows results for that date and city
   var filteredDate = data.filter(obj=>obj.datetime === date); 
   var filteredCity = filteredDate.filter(obj=>obj.city === city);
   console.log(filteredDate);
@@ -55,7 +56,7 @@ function handlClick(){
 filterButton.on("click", handlClick);
 
 
-// Establish a function to filter by datetime
+// Establishing separate functions that would filter by each input to a filtering field
 // function handlClick(){
 //   d3.event.preventDefault()
 //   var date = dateFilter.property("value");
@@ -119,9 +120,6 @@ filterButton.on("click", handlClick);
 //   showData(filtered);
 // };
 
-// form.on("submit", handlClick);
-// dateFilter.on("submit", handlClick);
-// cityFilter.on("submit", handlClick);
-// stateFilter.on("submit", handlClick);
+
 
 
